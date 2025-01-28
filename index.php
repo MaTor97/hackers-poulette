@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $description = $_POST['description'];
 
         // Validation reCAPTCHA
-        $recaptchaSecret = 'YOUR_SECRET_KEY';
+        $recaptchaSecret = '6LfR2sUqAAAAAGQx3XAuKLEwbpmmnkYSxCugrjG3';
         $recaptchaResponse = $_POST['g-recaptcha-response'];
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$recaptchaSecret&response=$recaptchaResponse");
         $responseKeys = json_decode($response, true);
@@ -42,7 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Liaison des paramètres
             $stmt->bindParam(':name', $name);
-            // ...existing code...
+            $stmt->bindParam(':firstname', $firstname);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':file', $file);
+            $stmt->bindParam(':description', $description);
+
+            // Exécuter la requête
+            $stmt->execute();
+
+            // Message de succès
+            $message = "Data successfully inserted!";
         }
     } catch (PDOException $e) {
         $message = "Error: " . $e->getMessage();
